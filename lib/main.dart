@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project2/models/quiz_question.dart';
 import 'package:project2/data/questions.dart';
 
 void main() {
@@ -12,13 +11,14 @@ void main() {
 
 // Stateless => Ekranda değişime uğramayacak, UI widget
 // cmd + . ->itellisense
+
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -56,30 +56,32 @@ class QuestionScreen extends StatefulWidget {
 }
 
 class _QuestionState extends State<QuestionScreen> {
-  String question = "Soru 1";
-  List<String> answers = [
-    "Liste Elemanı 1",
-    "Cevap 2",
-    "Cevap 3",
-    "Cevap 4",
-    "Cevap 5"
-  ];
+  int questinNo = 0;
 
   void changeQuestion() {
     setState(() {
-      question = "Soru 2";
+      questinNo += 1;
     }); // değişikliklerin ekrana da yansıtılması için gerekli..
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Beşiktaş Quiz"),
+        centerTitle: true,
+        backgroundColor: Colors.black,
+      ),
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(question),
-          ...answers.map((answer) {
+          Text(questions[questinNo].question),
+          ...questions[questinNo].answers.map((answer) {
             return ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (questinNo < 4) {
+                    changeQuestion();
+                  }
+                },
                 child: Text(
                   answer,
                   textAlign: TextAlign.center,
