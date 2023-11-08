@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project2/home_screen.dart';
-import 'package:project2/quiz_screen.dart';
+import 'package:project2/question_screen.dart';
+import 'package:project2/start_screen.dart';
 
 class SwiperScreen extends StatefulWidget {
   const SwiperScreen({Key? key}) : super(key: key);
@@ -9,25 +9,31 @@ class SwiperScreen extends StatefulWidget {
   _SwiperScreenState createState() => _SwiperScreenState();
 }
 
-// callback function
 class _SwiperScreenState extends State<SwiperScreen> {
-  String activeScreenName = "home-screen";
+  var _activeScreenName = "start-screen";
 
-  void goToQuiz() {
+  void changeScreen() {
     setState(() {
-      activeScreenName = "quiz-screen";
+      _activeScreenName = "quiz-screen";
     });
   }
-// StatefullWidget setState her yapıldığında build fonksiyonunu yeniden çalıştırır.
+
+  // Callback functionlar
+  // Sorular bittiğinde resultscreen açılmalıdır. Cevaplanan sorular listelenmelidir
+  // (Liste widgetları)
+
+  // ResultScreen oluşturulması
+  // QuestionScreen'den soruların bittiğine dair callback alınması
+  // ResultScreen'in gösterilmesi
+  // EKSTRA : Verilen cevaplar hafızada tutulup şu soruya şu cevap verdiniz şeklinde ResultScreen'de listelenmesi
   @override
   Widget build(BuildContext context) {
-    Widget activeScreen = HomeScreen(goToQuiz); //
+    Widget activeScreen = StartScreen(changeScreen);
 
-    if (activeScreenName == "quiz-screen") activeScreen = const QuizScreen();
+    if (_activeScreenName == "quiz-screen") {
+      activeScreen = QuestionScreen();
+    }
 
-    return Container(
-      child: activeScreen,
-    );
+    return Container(child: activeScreen);
   }
-
 }
